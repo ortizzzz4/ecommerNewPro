@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col">
+    {% if product.image %}
+    <img src="{{ product.image.url }}" alt="samsung 10" width="200" height="200" class="img">
+    {% endif %}
+
+
+
+    <div class="h2 mt-2">{{ product.title }}</div>
+    <div class="h5 font-monospace-bold mt-2">
+        Precio: <span class="text-danger">${{ product.price }}</span>
+    </div>
+    <div class="container mt-2">
+        <p class="text text-secondary m-3">{{product.description}}</p>
+    </div>
+    <div class=" mt-2">
+        {% include 'carts/snippets/add.html' %}
+    </div>
+
+</div>
+
+
+<style>
+   
+    .img{
+        margin-top: 5px;
+        margin-left: 40%;
+        margin-right: 50%;
+        border-radius: 12px;
+
+    }
+    .col{
+        width: 300px;
+        color: cornflowerblue;
+        background-color:  #000000cf;
+        border-radius: 20px;
+    }
+
+
+
+
+    @media screen and (max-width: 700px){
+        .col{
+            padding: 3.5rem;
+            background-color: #000000cf;
+            border-radius: 0% 50% 50% 0% ;
+            color: rgb(40, 19, 114);
+        }
+        .img{
+           
+            margin-left: 0%;
+            margin-right: 0%;
+        }
+    } 
+
+
+
+</style>
+{% endblock %}

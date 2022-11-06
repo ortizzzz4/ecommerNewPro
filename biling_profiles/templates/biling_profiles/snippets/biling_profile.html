@@ -1,0 +1,40 @@
+
+
+<div class="card  " style="background-image: linear-gradient(to right, 
+#053aca,
+#82b116,
+#b91611,
+#4d1b04,
+#f07654,
+#ed6856,
+#ef5956,
+#7fee4c) ">
+    <div class="card-body">
+         <div class="">
+            <p class="text text-uppercase">Nombre de la compañía</p>
+            
+            <h5 class="card-titel">{{ biling_profile.brand }}</h5>
+            <hr>
+         </div>
+         <div>
+            <p class="text text-uppercase">Ultimos digitos</p>
+            <h6 class="card-subtitle">{{ biling_profile.last4 }}</h6>
+         </div>
+         <div >
+            <hr>
+            <p class="text text-uppercase">Nombre del encargado/a</p>
+            <h6 class="card-subtitle">{{ biling_profile.user }}</h6>
+         </div>
+        <hr>
+
+        <div>
+            <p class="text text-uppercase">Fecha creada</p>
+            <h6 class="card-subtitle">{{ biling_profile.created_at }}</h6>
+        </div>
+         <div class="mt-2 text-info">
+            {% if biling_profile.default %}
+            Direccion principal
+            {% endif %}
+         </div>
+    </div>
+</div>

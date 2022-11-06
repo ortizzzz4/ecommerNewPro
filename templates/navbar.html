@@ -1,0 +1,82 @@
+{% url 'login' as login %}
+{% url 'register' as register %}
+{% url 'carts:cart' as cart %}
+{% url 'shipping_addresses:shipping_addresses' as shipping_addresses %}
+{% url 'orders:completeds' as completeds %}
+{% url 'biling_profiles:biling_profiles' as biling_profiles %}
+
+
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <a href="{% url 'index' %}" class="navbar-brand text text-white">LaynCC</a>
+  <button
+    type="button"
+    name="button"
+    class="navbar-toggler navbar-toggler-right"
+    data-bs-toggle="collapse"
+    data-bs-target="#navb"
+    aria-controls="navb"
+    aria-expanded="false"
+    aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div id="navb" class="collapse navbar-collapse">
+  
+    <!--<ul class="navbar-nav">
+      <li class="nav-item">
+        <a href="{% url 'carts:cart' %} " class="nav-link">
+          Mi Carrito <span class="fas fa-shopping-cart" ></span>
+        </a>
+      </li>
+
+    </ul> -->
+  
+  
+    <ul class="navbar-nav">
+      <li class="nav-item {% if request.path == cart%}active{%endif%}">
+        <a href="{{ cart }}" class="nav-link">Carrito<span class="fas fa-shopping-cart"></span></a>
+      </li>
+      {% if user.is_authenticated %} <!-- Restriciones solo para usuarios autenticados -->
+      <li class="nav-item {% if request.path == shipping_addresses%}active{%endif%}">
+        <a href="{{ shipping_addresses }}" class="nav-link">Mis direcciones<span class="fas fa-location-arrow"></span></a>
+      </li>
+      <li class="nav-item {% if request.path == completeds %}active{%endif%}">
+        <a href="{{ completeds  }}" class="nav-link">Mis pedidos<span class="fas fa-shipping-fast"></span></a>
+      </li>
+      <li class="nav-item {% if request.path == biling_profiles %}active{%endif%}">
+        <a href="{{ biling_profiles  }}" class="nav-link">Metodos de pago<span class="bi bi-credit-card-2-back"></span></a>
+      </li>
+      {% endif %}
+
+    </ul>
+
+    
+
+    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+      {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a
+          class="nav-link active"
+          aria-current="page"
+          href="{% url 'logout' %}"
+        >
+          <span class="fas fa-sign-in-alt"></span>Logout</a
+        >
+      </li>
+     
+      {% else %}
+      <li class="nav-item {% if request.path == login %}activate{% endif %}">
+        <a class="nav-link active" aria-current="page" href="{% url 'login' %}">
+          <i class="fa-solid fa-user"></i> Login</a
+        >
+      </li>
+      <li class="nav-item {% if request.path == register %}activate{% endif %}">
+        <a class="nav-link active" aria-current="page" href="{%  url 'register' %}">
+          <span class="fas fa-user-plus"></span>Registro</a
+        >
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>

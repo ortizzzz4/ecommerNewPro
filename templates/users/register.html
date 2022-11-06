@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+  
+
+<div class="col">
+    <h2 class="text-center">Registro</h2>
+  <form method="post" >
+    {% csrf_token %}
+    
+
+
+  <!--   <div class="form-label">
+
+
+        {{ form.username.label_tag }}
+        {{ form.username }}
+
+    </div> 
+    <div class="form-label">
+        {{ form.email.label_tag }}
+        {{ form.email }}
+
+    </div> 
+    <div class="form-label">
+        {{ form.password.label_tag }}
+        {{ form.password }}
+
+    </div>  -->    
+    
+{% for field in form %}
+<div class="form-label">
+    {{ field.label_tag }}
+    {{ field }}
+    {% if field.errors %}
+    {{ field.errors }}
+    {% endif %}
+</div>
+{% endfor %}
+
+    <button type="submit" class="btn btn-primary" >Registrar</button>
+  </form>
+
+</div>
+
+</body>
+
+
+<style>
+  label{
+    color: rgb(46, 46, 136);
+    
+  }
+  body{
+    background-image: url(/static/img/bg/bg.png);
+  }
+
+  .col{
+    background-color: rgba(33, 11, 112, 0.726);
+    border-radius: 20px 50px 0px 0px;
+  }
+
+
+</style>
+
+{% endblock %}

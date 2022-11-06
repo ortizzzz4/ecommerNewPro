@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col">
+    <div class="h3">
+ metodo de pagos
+    </div>
+    <div class="gb-dark">
+     <a href="{% url 'biling_profiles:create' %}">Nuevo metodo de pago</a>
+    </div>
+    <div class="mt-3">
+        {% for biling_profile in object_list %}
+        {% include "biling_profiles/snippets/biling_profile.html" %} 
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

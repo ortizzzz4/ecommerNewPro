@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+    
+
+<div class="col ">
+    <h2 class="text-center">Login</h2>
+
+    <form method="post" >
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" class="form-control" >
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" class="form-control" >
+        </div>
+        <button type="submit" class="btn btn-primary mt-3" >Iniciar</button>
+
+    </form>
+
+</div>
+
+</body>
+
+<style>
+    body{
+        background-image: url(/static/img/bg/bg.png);
+    }
+    label{
+        color: rgba(44, 44, 179, 0.815);
+    }
+    .col{
+        
+        background-color: rgba(33, 11, 112, 0.726);
+        border-radius: 12px 12px 0px 0px;
+       
+
+    }
+
+</style>
+
+
+
+{% endblock %}
+
+
+
