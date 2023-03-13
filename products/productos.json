@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "title": "telefono",
+    "description": "samsug galaxy",
+    "price": "350.00",
+    "slug": "telefono",
+    "image": "http://127.0.0.1:8000/media/products/samsung_js20.jpg",
+    "create_at": "2023-03-11T16:18:46.549299-06:00"
+  },
+  {
+    "id": 2,
+    "title": "table samn",
+    "description": "samsung j table",
+    "price": "1500.00",
+    "slug": "table-samn",
+    "image": "http://127.0.0.1:8000/media/products/Samsung-9092737.png",
+    "create_at": "2023-03-11T16:19:16.610299-06:00"
+  },
+  {
+    "id": 3,
+    "title": "tv samsung",
+    "description": "tv samsung js",
+    "price": "350.00",
+    "slug": "tv-samsung",
+    "image": "http://127.0.0.1:8000/media/products/tv.webp",
+    "create_at": "2023-03-11T16:20:20.884121-06:00"
+  },
+  {
+    "id": 4,
+    "title": "Getac",
+    "description": "El port\u00e1til ultra-rugerizado X500 sigue siendo nuestro modelo emblem\u00e1tico. Combinando el potente procesador de cuatro n\u00facleos de 7ma generaci\u00f3n de Intel con una radiante pantalla Full FHD de 15.6'' y una capacidad de expansi\u00f3n sin l\u00edmites, la X500 es el port\u00e1til ultra-rugerizado m\u00e1s potente que hemos fabricado.",
+    "price": "545.00",
+    "slug": "getac",
+    "image": "http://127.0.0.1:8000/media/products/laptomi.webp",
+    "create_at": "2023-03-12T16:17:31.195404-06:00"
+  },
+  {
+    "id": 5,
+    "title": "samsung galaxy z",
+    "description": "Puede realizar un pedido de Samsung Galaxy Z Flip 3 8+ 256Gb Negro 5G - 68399 rublos con entrega en la ciudad o recoger el pedido en la tienda. Electr\u00f3nica original Apple en tienda especializada iStudio.",
+    "price": "500.00",
+    "slug": "samsung-galaxy-z",
+    "image": "http://127.0.0.1:8000/media/products/z.png",
+    "create_at": "2023-03-12T18:54:11.151547-06:00"
+  }
+]

@@ -1,9 +1,13 @@
 from django.shortcuts import render
-
+import requests
+import json
 from django.db.models import Q
-
+from .models import Product
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from rest_framework.generics import ListAPIView
+
+from .serializers import ProductSerializers
 # Create your views here.
 from .models import Product
 
@@ -41,3 +45,18 @@ class ProductSearchListView(ListView):
              context['query'] = self.query()
              return context
        
+class ListaApi(ListAPIView):
+      serializer_class = ProductSerializers
+      queryset = Product.objects.all()
+      
+     # def guardarDatos(self):
+      #    url =self.serializer_class
+       #   file = "fixtures/datos.json"
+        #  data=url
+         # with open(file, "w") as fl:
+          #      json.dump(data, fl)
+           #     print(data)
+            #    
+             #   with open(file,"") as fls:
+              #        json.load(data,fls)
+            

@@ -25,10 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(n@7a$#*3esipr)z(_^^7z#r8=mp3dozb%_05nn1ds0q2^6j1h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['localhost' ,'127.0.0.1','webpersonal.pythonanywhere.com']
-
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -48,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -93,8 +93,14 @@ WSGI_APPLICATION = 'layn.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'tienda_en_linea',
+        'USER': 'root',
+        'PASSWORD': 'Leho7564$',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
  

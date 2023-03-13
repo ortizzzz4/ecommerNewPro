@@ -1,0 +1,12 @@
+{
+    "model": "products.product",
+    "pk": "",
+    "fields": {
+        "title": "",
+        "description": "",
+        "price": "",
+        "slug": "",
+        "image": "",
+        "create_at": ""
+        }
+}

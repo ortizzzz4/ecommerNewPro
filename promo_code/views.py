@@ -6,6 +6,8 @@ from .models import PromoCode
 
 from carts.utils import get_or_create_cart
 from orders.utils import get_or_create_order
+from .serializers import ListPromoCode
+from rest_framework.generics import ListAPIView
 
 def validate(request):
     cart = get_or_create_cart(request)
@@ -27,3 +29,7 @@ def validate(request):
         'discount': promo_code.discount,
         'total': order.total
     })
+    
+class ListPromo(ListAPIView):
+    serializer_class = ListPromoCode
+    queryset  = PromoCode.objects.all()

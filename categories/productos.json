@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "title": "celulares",
+    "description": "celulares",
+    "created_at": "2023-03-12T20:46:24.807429-06:00",
+    "products": [5]
+  },
+  {
+    "id": 2,
+    "title": "tv",
+    "description": "tv",
+    "created_at": "2023-03-12T20:46:32.984561-06:00",
+    "products": [3]
+  }
+]

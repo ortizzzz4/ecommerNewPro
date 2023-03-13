@@ -22,6 +22,9 @@ from django.views.generic import ListView
 
 from .decorador import validar_cart_and_orden
 
+from .serializers import OrderSeria
+
+from rest_framework.generics import ListAPIView
 
 class OrderListView(LoginRequiredMixin, ListView):
     login_url = 'login'
@@ -166,3 +169,8 @@ def complete(request, cart, order):
 
             messages.success(request, 'Compra, completada exitosamente')
     return redirect('index')
+
+
+class OrderViewSele(ListAPIView):
+    serializer_class = OrderSeria
+    queryset = Order.objects.all()

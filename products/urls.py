@@ -3,6 +3,7 @@ from django.urls import path
 app_name = 'products'# solo a al app de products
 
 from . import views
+
 urlpatterns = [
      path('search', views.ProductSearchListView.as_view(), name='search'),
      path('<slug:slug>', views.ProductDetailView.as_view(), name='product'),
