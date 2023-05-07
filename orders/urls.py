@@ -1,6 +1,7 @@
 from django.urls import path
 
 from .import views
+#from .views import MiObjetoEliminarView
 
 app_name='orders'
 
@@ -14,6 +15,7 @@ urlpatterns = [
     path('completar', views.complete, name='complete'),
     path('pago', views.payment, name='payment'),
     path('completados', views.OrderListView.as_view(), name='completeds'),
+    path('eliminar/<int:order_id>',views.delete_order, name='eliminar_orden') ,
 
 
 

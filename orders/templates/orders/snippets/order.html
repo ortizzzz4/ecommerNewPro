@@ -1,4 +1,5 @@
 {% load product_extras %}
+{% url 'orders:eliminar_orden' as eliminar_orden %}
 
 <div class="card mb-2">
     <div class="card-header">
@@ -24,7 +25,7 @@
     <div class="card-body">
         {% for cp in order.cart.products_related %}
             {% with product=cp.product %}
-             <div class="row">
+            <div class="row">
                 <div class="col-4">
                    {% if product.image %}
               <img src="{{product.image.url}}" alt="imagen" width="80" height="80">
@@ -51,8 +52,22 @@
 
              </div>
 
+             <div class="">
+
+                <a href="{% url 'orders:eliminar_orden' order.id  %}" class="btn btn-primary" id="eliminar">Eliminar</a>
+
+             </div>
+
+
+
 
             {% endwith %}
         {% endfor %}
     </div>
 </div>
+
+<style>
+    #eliminar{
+        text-decoration: none;
+    }
+</style>

@@ -1,6 +1,8 @@
 import threading
 from django.contrib import messages
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
 from charges.models import Charge
 from django.db import transaction
 from carts.utils import get_or_create_cart
@@ -18,7 +20,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 from django.db.models.query import EmptyQuerySet
-from django.views.generic import ListView
+from django.views.generic import ListView, DeleteView
 
 from .decorador import validar_cart_and_orden
 
@@ -33,7 +35,21 @@ class OrderListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return self.request.user.orders_completed()
 
-
+#def eliminar(request , id) :
+ #   registro  = get_object_or_404(Order)
+#
+ #   if registro  :
+  #      registro.delete()
+#
+ #   return redirect('order')
+#class MiObjetoEliminarView(DeleteView):
+ #   model = Order
+  #  success_url = reverse_lazy('order')
+def delete_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    order.delete()
+    return redirect('index')
+    
 # decorador para que solo los usuarios logeados puedan ver el carrito
 @login_required(login_url='login')
 @validar_cart_and_orden
