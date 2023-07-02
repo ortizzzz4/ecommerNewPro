@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-(n@7a$#*3esipr)z(_^^7z#r8=mp3dozb%_05nn1ds0q2^6j1h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -93,14 +93,14 @@ WSGI_APPLICATION = 'layn.wsgi.application'
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.sqlite3',
-        #'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tienda_en_linea',
-        'USER': 'root',
-        'PASSWORD': 'Leho7564$',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        #'ENGINE': 'django.db.backends.mysql',
+        #'NAME': 'tienda_en_linea',
+       # 'USER': 'root',
+       # 'PASSWORD': 'Leho7564$',
+       # 'HOST': 'localhost',
+       # 'PORT': '3306',
     }
 }
  

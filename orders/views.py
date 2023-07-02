@@ -35,18 +35,10 @@ class OrderListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return self.request.user.orders_completed()
 
-#def eliminar(request , id) :
- #   registro  = get_object_or_404(Order)
-#
- #   if registro  :
-  #      registro.delete()
-#
- #   return redirect('order')
-#class MiObjetoEliminarView(DeleteView):
- #   model = Order
-  #  success_url = reverse_lazy('order')
+
 def delete_order(request, order_id):
     order = get_object_or_404(Order, id=order_id)
+    
     order.delete()
     return redirect('index')
     
