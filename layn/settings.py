@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'accountant',
     'users',
     'carts',
     'orders',
@@ -95,12 +96,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-        #'ENGINE': 'django.db.backends.mysql',
-        #'NAME': 'tienda_en_linea',
-       # 'USER': 'root',
-       # 'PASSWORD': 'Leho7564$',
+        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        #'NAME': 'online',
+       # 'USER': 'luis',
+       ## 'PASSWORD': '1234',
        # 'HOST': 'localhost',
-       # 'PORT': '3306',
+       # 'PORT': '5432',
     }
 }
  

@@ -14,7 +14,7 @@ class ShippingAddress(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.postal_code
+        return " Calle "  + self.line1  + " | " + " Municipio " + self.city
     
     def has_orders(self): #metodo para conocer si por lo menos tiene una orden
         return self.order_set.count() >= 1
