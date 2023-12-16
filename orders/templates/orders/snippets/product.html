@@ -10,7 +10,7 @@
   <div class="col">
     <div class="row">
        <strong>
-        <a href="{% url 'products:product' product.slug %}">{{ product.title }}</a></strong>
+        <a href="{% url 'products:product' product.slug %}" style="text-decoration:none;">{{ product.title }}</a></strong>
     </div>
     <div class="row">
 <strong class="text-danger">{{ product.price | price_format }}</strong>

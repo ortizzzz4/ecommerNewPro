@@ -19,6 +19,7 @@ class BilingProfileListView(LoginRequiredMixin,ListView ):
         return self.request.user.biling_profiles
     
     
+    
 @login_required(login_url='login')
 def create(request):
     

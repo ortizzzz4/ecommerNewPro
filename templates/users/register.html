@@ -3,64 +3,201 @@
 <body>
   
 
-<div class="col">
-    <h2 class="text-center">Registro</h2>
-  <form method="post" >
-    {% csrf_token %}
+
+<div class="col" id="card">
+  <div class="card-1">
+    <h2 class="h22" >Registrarse</h2>
+    <form method="post" >
+      {% csrf_token %}
+      <div class=" container-md">
+        <div class="card-form">
+          <input placeholder="Username" type="text" name="username" class="input">
+         </div>
+         <div class="card-form">
+          <input placeholder="email" type="email" name="email" class="input">
+         </div>
     
+         <div class="card-form">
+          <input type="password" name="password" placeholder="password" class="input"  id="password" >
+          <span  class="eye">
+            <i class="fa-regular fa-eye" id="togglePassword"></i>
+          </span>   
+         </div>
+         <div class="card-form">
+          <input type="password" name="password2" placeholder="repeat password" id="password1" class="input">
+          <span class="eye">
+            <i class="fa-regular fa-eye" id="togglePassword1"></i>
+            <!-- i class="fa-regular fa-eye-slash" id="togglePassword2"></i-->
+          </span>   
+         </div>
+         
+         <div class="card-form">
+          <button type="submit" class="btn btn-primary" >Registrar</button>
+         </div>
+      </div>
+   
+      
+  
+  
+    <!--   <div class="form-label">
+  
+  
+          {{ form.username.label_tag }}
+          {{ form.username }}
+  
+      </div> 
+      <div class="form-label">
+          {{ form.email.label_tag }}
+          {{ form.email }}
+  
+      </div> 
+      <div class="form-label">
+          {{ form.password.label_tag }}
+          {{ form.password }}
+  
+      </div>  -->    
+      
+  <!--
+   { for field in form }
+  <div class="form-label">
+      {{ field.label_tag }}
+      {{ field }}
+      {if field.errors }
+      {{ field.errors }}
+      { endif }
+  </div>
+  {endfor }-->
+  
+     
+    </form>
+  
+</div >  
 
-
-  <!--   <div class="form-label">
-
-
-        {{ form.username.label_tag }}
-        {{ form.username }}
-
-    </div> 
-    <div class="form-label">
-        {{ form.email.label_tag }}
-        {{ form.email }}
-
-    </div> 
-    <div class="form-label">
-        {{ form.password.label_tag }}
-        {{ form.password }}
-
-    </div>  -->    
-    
-{% for field in form %}
-<div class="form-label">
-    {{ field.label_tag }}
-    {{ field }}
-    {% if field.errors %}
-    {{ field.errors }}
-    {% endif %}
+ 
+ 
 </div>
-{% endfor %}
 
-    <button type="submit" class="btn btn-primary" >Registrar</button>
-  </form>
-
-</div>
 
 </body>
 
 
 <style>
+  .eye{
+   margin-left: -1.9rem;
+  }
+  .fa-eye {
+    position: absolute;
+   
+    transform: translateY(-50%);
+    cursor: pointer;
+    margin-top: 25px;
+    
+  }
   label{
     color: rgb(46, 46, 136);
     
   }
   body{
-    background-image: url(/static/img/bg/bg.png);
+  
+    background: #8360c3;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #2ebf91, #8360c3);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #2ebf91, #8360c3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+    
+
+  }
+  #card{   
+    height: 500px;
+    border:none;
+    display: flex;
+    flex-direction: row;
+    padding: 1px;
+    /*box-shadow: 2px -2px 50px 33px rgba(9,135,196,0.75);*/
+    background-color:transparent;
   }
 
-  .col{
-    background-color: rgba(33, 11, 112, 0.726);
-    border-radius: 20px 50px 0px 0px;
+  .card-1{  
+    width: 800px;
+    background-image: linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%);    
+    clip-path: polygon(0 0, 58% 0, 100% 100%, 0% 100%);
+    border: px dotted lightseagreen;
   }
+  .h22{
+    color: black;
+    margin-left: 100px;
+    margin-top: 10px;
+  }
+  .container-md{
+   
+    margin-top: 6rem;
+  }
+  .card-form{
+   
+    margin: 1px auto;
+    margin-top: 15px;
 
+   
+  }
+  .input{
+    padding: 11px 25px;
+    background: transparent;
+    border: 1px solid #e3e3e3;
+    line-height: 1;
+    border-radius: 8px;
+   
+  }
+  @media screen and (max-width: 375px) {
+    .eye{
+   margin-left: -4.5rem;
+  }
+   .h22{
+    margin-left: -2px;
+   }
+    .card-1{
+      width: 300px;
+      clip-path: polygon(0% 0, 58% 0, 100% 100%, 0% 100%);
+    
+    }
+   
+    .input{
+  
+    margin-left: -2rem;
+    }
+  }
+  
 
 </style>
+
+<script>
+  const passwordInput = document.getElementById('password');
+  const passworDos = document.getElementById('password1');
+  const togglePasswordButton = document.getElementById('togglePassword');
+  const togglePasswordDos = document.getElementById("togglePassword1");
+  const togglePasswordTres = document.getElementById("togglePassword2");
+
+
+  togglePasswordButton.addEventListener('click', function () {
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+    } else {
+      passwordInput.type = 'password';
+    }
+  });
+
+  togglePasswordDos.addEventListener('click', function (){
+    if (passworDos.type === 'password') {
+      passworDos.type = 'text';
+    
+    } else {
+      passworDos.type = 'password';
+    }
+
+   
+
+
+
+
+  });
+</script>
 
 {% endblock %}

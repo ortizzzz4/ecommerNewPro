@@ -50,6 +50,7 @@ form.addEventListener('submit', function(event) {
       var errorElement = document.getElementById('card-errors');
       errorElement.textContent = result.error.message;
     } else {
+     
       // Send the token to your server.
       stripeTokenHandler(result.token);
     }

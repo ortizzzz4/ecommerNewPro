@@ -1,10 +1,41 @@
-{% if messages %}
-        {% for message in messages %}
-        
-        <div class="alert {% if message.tags == 'success'%}alert-success{%else%}alert-danger{%endif%} alert-dismissible fade show" role="alert">
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            {{ message }}
-        </div>
-    
-        {%endfor%}
-        {% endif%}
+{% for message in messages %}
+    {% if message.tags == 'success' %}
+      <!-- sweetalert js -->
+      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script>
+        var m = "{{ message }}";
+        Swal.fire({
+          icon: 'success',
+          iconHtml: '<i class="fa fa-check"></i>',
+          text: m,
+          confirmButtonColor: 'black',
+          color: '#000',
+          background: "#00DBDE",
+          background:"linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%)",    
+          allowEscapeKey: false,
+          showClass: {
+            popup: 'my-icon'                     
+          },
+        });
+      </script>
+    {% else %}
+    <!-- sweetalert js -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      var m = "{{ message }}";
+      Swal.fire({
+        icon: 'error',
+        iconHtml: '<i class="fa fa-warning"></i>',
+        text: m,
+        confirmButtonColor: 'black',
+        color: '#000',
+        background: "#00DBDE",
+        background:"linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%)",
+        allowEscapeKey: false,
+        showClass: {
+          popup: 'my-icon'                    
+        },
+      });
+    </script>
+    {% endif %}
+    {% endfor %}

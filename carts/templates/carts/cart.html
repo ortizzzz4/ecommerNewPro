@@ -25,7 +25,7 @@
             <!-- contar los productos agregados-->
             {% with product=cp.product %}
             <tr>
-                <th>{{ forloop.counter }}</th> <!-- 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 -->
+                <th style="color:Black;">{{ forloop.counter }}</th> <!-- 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 -->
                 <th>
                     {% if product.image  %}
                     <img src="{{ product.image.url  }}" alt="imagen" width="60" height="60">
@@ -33,8 +33,8 @@
                 
                 </th>
                
-                <th>
-                    <a href="{% url 'products:product' product.slug %}">{{ product.title }}</a>
+                <th >
+                    <a style="text-decoration:none" href="{% url 'products:product' product.slug %}">{{ product.title }}</a>
                     {% include 'carts/snippets/remove.html' %}
                 </th>
                 
@@ -42,7 +42,7 @@
                   {{ cp.quantity }}
                 </th>
                 <th>
-                    <span class="font-monospace text-danger" >{{ product.price | price_format  }}</span>
+                    <span class="font-monospace text-dark" >{{ product.price | price_format  }}</span>
                 </th>
             </tr>
             {% endwith %}

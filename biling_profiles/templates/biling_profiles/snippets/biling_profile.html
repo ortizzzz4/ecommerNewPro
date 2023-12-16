@@ -1,40 +1,436 @@
+<div class="contenedor">
 
-
-<div class="card  " style="background-image: linear-gradient(to right, 
-#053aca,
-#82b116,
-#b91611,
-#4d1b04,
-#f07654,
-#ed6856,
-#ef5956,
-#7fee4c) ">
-    <div class="card-body">
-         <div class="">
-            <p class="text text-uppercase">Nombre de la compañía</p>
-            
+   <section class="tarjeta" id="tarjeta">
+      <!--div class="delantera">
+         <div class="logo-marca" id="logo-marca">
+            <!-- <img src="img/logos/visa.png" alt=""> -->
+         <!--/div>
+         <img src="/static/img/chip-tarjeta.png" class="chip" alt="">
+         <div class=" datos">
+            <!--div class="grupo" id="nombre">
+            <p class="text text-uppercase">Nombre de la compañía</p>         
             <h5 class="card-titel">{{ biling_profile.brand }}</h5>
             <hr>
-         </div>
-         <div>
-            <p class="text text-uppercase">Ultimos digitos</p>
-            <h6 class="card-subtitle">{{ biling_profile.last4 }}</h6>
-         </div>
-         <div >
+         </div-->
+            <!--div class="grupo" id="numero">
+               <p class="label text text-uppercase">Ultimos Digitos Tarjeta</p>
+               <p class="numero card-subtitle">{{ biling_profile.last4 }}</p>
+            </div>
             <hr>
-            <p class="text text-uppercase">Nombre del encargado/a</p>
-            <h6 class="card-subtitle">{{ biling_profile.user }}</h6>
-         </div>
-        <hr>
+            <div class="flexbox">
+               <div class="grupo" id="nombre">
 
-        <div>
+                  <p class="label">Nombre Tarjeta</p>
+                  <p class="nombre card-subtitle">{{ biling_profile.user }}</p>
+               </div>
+            </div>
+
+            <hr>
+
+            <!--div>
             <p class="text text-uppercase">Fecha creada</p>
             <h6 class="card-subtitle">{{ biling_profile.created_at }}</h6>
-        </div>
-         <div class="mt-2 text-info">
+        </div-->
+
+
+
+            <!--div class="mt-2 text-info">
             {% if biling_profile.default %}
             Direccion principal
             {% endif %}
+         </div-->
+         <!--/div>
+      </div>
+      </div-->
+      <div class="delantera">
+				<div class="logo-marca" id="logo-marca">
+					<!-- <img src="img/logos/visa.png" alt=""> -->
+				</div>
+				<img src="/static/img/chip-tarjeta.png" class="chip" alt="">
+				<div class="datos">
+					<div class="grupo" id="numero">
+						<p class="label">Número Tarjeta</p>
+						<p class="numero">***-****-****-{{ biling_profile.last4 }}</p>
+					</div>
+					<div class="flexbox">
+						<div class="grupo" id="nombre">
+							<p class="label">Nombre Tarjeta</p>
+							<p class="nombre">{{ biling_profile.user }}</p>
+						</div>
+
+						<div class="grupo" id="expiracion">
+							<p class="label">Expiracion</p>
+							<p class="expiracion"><span class="mes">{{biling_profile.exp_month}}</span> / <span class="year">{{biling_profile.exp_year}}</span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+<!--div class="trasera">
+   <div class="barra-magnetica"></div>
+   <div class="datos">
+      <div class="grupo" id="firma">
+         <p class="label">Firma</p>
+         <div class="firma">
+            <p></p>
          </div>
-    </div>
-</div>
+      </div>
+      <div class="grupo" id="ccv">
+         <p class="label">CCV</p>
+         <p class="ccv">{{biling_profile.cvc}}</p>
+      </div>
+   </div>
+   <p class="leyenda">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus exercitationem, voluptates
+      illo.</p>
+   <a href="#" class="link-banco">www.tubanco.com</a>
+      </div>
+
+   </section>
+</div-->
+
+<style>
+   .contenedor {
+      width: 90%;
+      max-width: 1000px;
+      padding: 40px 20px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+   }
+   
+   /* ---------- Estilos Generales de las Tarjetas ----------*/
+   .tarjeta {
+      width: 100%;
+      max-width: 550px;
+      position: relative;
+      color: #fff;
+      transition: .3s ease all;
+      transform: rotateY(0deg);
+      transform-style: preserve-3d;
+      cursor: pointer;
+      z-index: 2;
+   }
+   
+   .tarjeta.active {
+      transform: rotateY(180deg);
+   }
+   
+   .tarjeta > div {
+      padding: 30px;
+      border-radius: 15px;
+      min-height: 315px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 10px 10px 0 rgba(90,116,148,0.3);
+      height: 200px;
+      margin-top: -2rem;
+   }
+   
+   /* ---------- Tarjeta Delantera ----------*/
+   
+   .tarjeta .delantera {
+      width: 100%;
+      background: url(/static/img/bg-tarjeta-03.jpg);
+      background-size: cover;
+   }
+   
+   .delantera .logo-marca {
+      text-align: right;
+      min-height: 50px;
+   }
+   
+   .delantera .logo-marca img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      max-width: 80px;
+   }
+   
+   .delantera .chip {
+      width: 100%;
+      max-width: 50px;
+      margin-bottom: 20px;
+   
+      margin-top: -4.5rem;
+   }
+   
+   .delantera .grupo .label {
+      font-size: 15px;
+      color: #7d8994;
+      margin-bottom: 5px;
+   }
+   
+   .delantera .grupo .numero,
+   .delantera .grupo .nombre,
+   .delantera .grupo .expiracion {
+      color: #fff;
+      font-size: 12px;
+      text-transform: uppercase;
+   }
+   
+   .delantera .flexbox {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+   }
+   
+   /* ---------- Tarjeta Trasera ----------*/
+  
+   
+   /* ---------- Contenedor Boton ----------*/
+   .contenedor-btn .btn-abrir-formulario {
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      line-height: 20px;
+      background: #2364d2;
+      color: #fff;
+      position: relative;
+      top: -25px;
+      z-index: 3;
+      border-radius: 100%;
+      box-shadow: -5px 4px 8px rgba(24,56,182,0.4);
+      padding: 5px;
+      transition: all .2s ease;
+      border: none;
+      cursor: pointer;
+   }
+   
+   .contenedor-btn .btn-abrir-formulario:hover {
+      background: #1850b1;
+   }
+   
+   .contenedor-btn .btn-abrir-formulario.active {
+      transform: rotate(45deg);
+   }
+   
+   /* ---------- Formulario Tarjeta ----------*/
+   .formulario-tarjeta {
+      background: #fff;
+      width: 100%;
+      max-width: 700px;
+      padding: 150px 30px 30px 30px;
+      border-radius: 10px;
+      position: relative;
+      top: -150px;
+      z-index: 1;
+      clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+      transition: clip-path .3s ease-out;
+   }
+   
+   .formulario-tarjeta.active {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+   }
+   
+   .formulario-tarjeta label {
+      display: block;
+      color: #7d8994;
+      margin-bottom: 5px;
+      font-size: 16px;
+   }
+   
+   .formulario-tarjeta input,
+   .formulario-tarjeta select,
+   .btn-enviar {
+      border: 2px solid #CED6E0;
+      font-size: 18px;
+      height: 50px;
+      width: 100%;
+      padding: 5px 12px;
+      transition: .3s ease all;
+      border-radius: 5px;
+   }
+   
+   .formulario-tarjeta input:hover,
+   .formulario-tarjeta select:hover {
+      border: 2px solid #93BDED;
+   }
+   
+   .formulario-tarjeta input:focus,
+   .formulario-tarjeta select:focus {
+      outline: rgb(4,4,4);
+      box-shadow: 1px 7px 10px -5px rgba(90,116,148,0.3);
+   }
+   
+   .formulario-tarjeta input {
+      margin-bottom: 20px;
+      text-transform: uppercase;
+   }
+   
+   .formulario-tarjeta .flexbox {
+      display: flex;
+      justify-content: space-between;
+   }
+   
+   .formulario-tarjeta .expira {
+      width: 100%;
+   }
+   
+   .formulario-tarjeta .ccv {
+      min-width: 100px;
+   }
+   
+   .formulario-tarjeta .grupo-select {
+      width: 100%;
+      margin-right: 15px;
+      position: relative;
+   }
+   
+   .formulario-tarjeta select {
+      -webkit-appearance: none;
+   }
+   
+   .formulario-tarjeta .grupo-select i {
+      position: absolute;
+      color: #CED6E0;
+      top: 18px;
+      right: 15px;
+      transition: .3s ease all;
+   }
+   
+   .formulario-tarjeta .grupo-select:hover i {
+      color: #93bfed;
+   }
+   
+   .formulario-tarjeta .btn-enviar {
+      border: none;
+      padding: 10px;
+      font-size: 22px;
+      color: #fff;
+      background: #2364d2;
+      box-shadow: 2px 2px 10px 0px rgba(0,85,212,0.4);
+      cursor: pointer;
+   }
+   
+   .formulario-tarjeta .btn-enviar:hover {
+      background: #1850b1;
+   }
+</style>
+<script>
+   const tarjeta = document.querySelector('#tarjeta'),
+	  btnAbrirFormulario = document.querySelector('#btn-abrir-formulario'),
+	  formulario = document.querySelector('#formulario-tarjeta'),
+	  numeroTarjeta = document.querySelector('#tarjeta .numero'),
+	  nombreTarjeta = document.querySelector('#tarjeta .nombre'),
+	  logoMarca = document.querySelector('#logo-marca'),
+	  firma = document.querySelector('#tarjeta .firma p'),
+	  mesExpiracion = document.querySelector('#tarjeta .mes'),
+	  yearExpiracion = document.querySelector('#tarjeta .year');
+	  ccv = document.querySelector('#tarjeta .ccv');
+
+// * Volteamos la tarjeta para mostrar el frente.
+const mostrarFrente = () => {
+	if(tarjeta.classList.contains('active')){
+		tarjeta.classList.remove('active');
+	}
+}
+
+// * Rotacion de la tarjeta
+/*tarjeta.addEventListener('click', () => {
+	tarjeta.classList.toggle('active');
+});  */
+
+// * Boton de abrir formulario
+btnAbrirFormulario.addEventListener('click', () => {
+	btnAbrirFormulario.classList.toggle('active');
+	formulario.classList.toggle('active');
+});
+
+// * Select del mes generado dinamicamente.
+for(let i = 1; i <= 12; i++){
+	let opcion = document.createElement('option');
+	opcion.value = i;
+	opcion.innerText = i;
+	formulario.selectMes.appendChild(opcion);
+}
+
+// * Select del año generado dinamicamente.
+const yearActual = new Date().getFullYear();
+for(let i = yearActual; i <= yearActual + 8; i++){
+	let opcion = document.createElement('option');
+	opcion.value = i;
+	opcion.innerText = i;
+	formulario.selectYear.appendChild(opcion);
+}
+
+// * Input numero de tarjeta
+formulario.inputNumero.addEventListener('keyup', (e) => {
+	let valorInput = e.target.value;
+
+	formulario.inputNumero.value = valorInput
+	// Eliminamos espacios en blanco
+	.replace(/\s/g, '')
+	// Eliminar las letras
+	.replace(/\D/g, '')
+	// Ponemos espacio cada cuatro numeros
+	.replace(/([0-9]{4})/g, '$1 ')
+	// Elimina el ultimo espaciado
+	.trim();
+
+	numeroTarjeta.textContent = valorInput;
+
+	if(valorInput == ''){
+		numeroTarjeta.textContent = '#### #### #### ####';
+
+		logoMarca.innerHTML = '';
+	}
+
+	if(valorInput[0] == 4){
+		logoMarca.innerHTML = '';
+		const imagen = document.createElement('img');
+		imagen.src = 'img/logos/visa.png';
+		logoMarca.appendChild(imagen);
+	} else if(valorInput[0] == 5){
+		logoMarca.innerHTML = '';
+		const imagen = document.createElement('img');
+		imagen.src = 'img/logos/mastercard.png';
+		logoMarca.appendChild(imagen);
+	}
+
+	// Volteamos la tarjeta para que el usuario vea el frente.
+	mostrarFrente();
+});
+
+// * Input nombre de tarjeta
+formulario.inputNombre.addEventListener('keyup', (e) => {
+	let valorInput = e.target.value;
+
+	formulario.inputNombre.value = valorInput.replace(/[0-9]/g, '');
+	nombreTarjeta.textContent = valorInput;
+	firma.textContent = valorInput;
+
+	if(valorInput == ''){
+		nombreTarjeta.textContent = 'Jhon Doe';
+	}
+
+	mostrarFrente();
+});
+
+// * Select mes
+formulario.selectMes.addEventListener('change', (e) => {
+	mesExpiracion.textContent = e.target.value;
+	mostrarFrente();
+});
+
+// * Select Año
+formulario.selectYear.addEventListener('change', (e) => {
+	yearExpiracion.textContent = e.target.value.slice(2);
+	mostrarFrente();
+});
+
+// * CCV
+formulario.inputCCV.addEventListener('keyup', () => {
+	if(!tarjeta.classList.contains('active')){
+		tarjeta.classList.toggle('active');
+	}
+
+	formulario.inputCCV.value = formulario.inputCCV.value
+	// Eliminar los espacios
+	.replace(/\s/g, '')
+	// Eliminar las letras
+	.replace(/\D/g, '');
+
+	ccv.textContent = formulario.inputCCV.value;
+});
+</script>
