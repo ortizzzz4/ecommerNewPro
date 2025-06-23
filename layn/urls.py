@@ -19,7 +19,8 @@ from django.urls import include
 
 from django.conf.urls.static import static
 from django.conf import settings
-from products.views import ListaApi
+from products.views import ProductApis
+from rest_framework import routers
 
 from products.views import ProductListView
 from orders.views import OrderViewSele
@@ -28,11 +29,9 @@ from categories.views import ListaApiCate
 
 from . import views
 
+
 urlpatterns = [
-    path('api/producto/listar', ListaApi.as_view(),name="listar-api-producto"),
-    path('api/ordenes/listas', OrderViewSele.as_view(), name="listar-api-ordenes" ),
-    path('api/categorias/listas', ListaApiCate.as_view(), name="listar-api-categorias" ),
-    path('api/promo/listar',ListPromo.as_view(),name="listar-api-promo"),
+  
     path('', ProductListView.as_view(), name='index' ),
     path('usuarios/login', views.login_view, name='login' ),
     path('usuarios/logout', views.logout_view, name='logout' ),
@@ -44,6 +43,9 @@ urlpatterns = [
     path('direcciones/', include('shipping_addresses.urls')),
     path('codigos/', include('promo_code.urls')),
     path('pagos/', include('biling_profiles.urls')),
+    path('users/',include('users.urls')),
+    
+   
 
 ]
 if settings.DEBUG:

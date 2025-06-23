@@ -6,6 +6,7 @@ from .models import Product
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from rest_framework.generics import ListAPIView
+from rest_framework import viewsets
 
 from .serializers import ProductSerializers
 # Create your views here.
@@ -45,7 +46,7 @@ class ProductSearchListView(ListView):
              context['query'] = self.query()
              return context
        
-class ListaApi(ListAPIView):
+class ProductApis(viewsets.ModelViewSet):
       serializer_class = ProductSerializers
       queryset = Product.objects.all()
       
