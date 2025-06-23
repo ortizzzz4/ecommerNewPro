@@ -23,7 +23,7 @@ export function Navigation() {
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+              d={menuOpen ? "M5 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
             />
           </svg>
         </button>
