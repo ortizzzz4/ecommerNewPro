@@ -16,7 +16,12 @@ routers.register(r'users',views.UsersAPi,'users')
 urlpatterns = [
      path('api/users/v1/',include(routers.urls)),\
      path('api/users/register/', views.RegisterView.as_view(), name='register'),
+     
+     
     path('api/users/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/users/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    
+    path('api/users/current/', views.CurrentUserView.as_view(), name='current_user'),
+
 ]
 

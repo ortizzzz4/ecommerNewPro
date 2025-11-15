@@ -7,6 +7,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from rest_framework.generics import ListAPIView
 from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
 
 from .serializers import ProductSerializers
 # Create your views here.
@@ -49,7 +50,8 @@ class ProductSearchListView(ListView):
 class ProductApis(viewsets.ModelViewSet):
       serializer_class = ProductSerializers
       queryset = Product.objects.all()
-      
+      permission_classes = [AllowAny]   # ← ESTA LÍNEA LO HACE PÚBLICO
+
      # def guardarDatos(self):
       #    url =self.serializer_class
        #   file = "fixtures/datos.json"
