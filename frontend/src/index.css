@@ -1,7 +1,32 @@
 @import "tailwindcss";
 
-body{
-  background: #020024;
+/* Estilos base */
+html, body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+/* Modo claro */
+html.light {
+  background: #f3f4f6;
+  color: #1f2937;
+}
+
+html.light body {
+  background: transparent;
+  color: inherit;
+}
+
+/* Modo oscuro */
+html.dark {
   background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+  background-attachment: fixed;
   color: white;
+}
+
+html.dark body {
+  background: transparent;
+  color: inherit;
 }

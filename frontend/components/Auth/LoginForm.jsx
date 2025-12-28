@@ -24,7 +24,7 @@ const Login = () => {
         // ✅ Mostrar alerta de éxito
         alert("✅ Inicio de sesión exitoso 😊");
 
-        window.location.href = "/productos"
+        window.location.href = "/"
       }
     } catch (err) {
       setError(err.response?.data?.detail || "Credenciales incorrectas");
