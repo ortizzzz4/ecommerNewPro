@@ -4,7 +4,7 @@ def create_charge(order):
     if order.billing_profile and order.user and order.user.customer_id:
         
         charge = stripe.Charge.create(
-            amount = int(order.total) * 100,
+            amount = int(order.total * 100),  # centavos, sin perder los decimales
             currency = 'USD',
             description = order.description,
             customer = order.user.customer_id,

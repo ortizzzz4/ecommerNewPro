@@ -55,8 +55,31 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_spectacular',
     'rest_framework_simplejwt',
+    'quotations',
+    'invoices',
+    'contacts',
+    'pos',
+    'inventario',
+    'empresa',
+    'resenas',
+    'tenants',
+    'cuentas',
+    'crm',
 
 ]
+
+# Base maestra (default) y una base por empresa registrada; ver tenants/routers.py
+DATABASE_ROUTERS = ['tenants.routers.TenantRouter']
+
+# Pagos de suscripción de las empresas
+FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
+STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', '')
+# Cuenta donde la empresa transfiere. Cámbiala en producción (variables de entorno)
+PAGOS_TRANSFERENCIA = {
+    'banco': os.environ.get('PAGO_BANCO', 'Banco por definir'),
+    'cuenta': os.environ.get('PAGO_CUENTA', 'Número de cuenta por definir'),
+    'titular': os.environ.get('PAGO_TITULAR', 'Titular por definir'),
+}
 
 # Desactivar los logs del servidor de desarrollo de Django
 LOGGING = {
@@ -77,12 +100,13 @@ LOGGING = {
 }
 
 MIDDLEWARE = [
+     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'tenants.middleware.EmpresaMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'layn.middleware.internal_only.SimpleLogMiddleware',
@@ -219,6 +243,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #AUTORIZACION ENTRE BACKEND Y FRONTEND
 CORS_ALLOW_ALL_ORIGINS = True
+# Cabeceras propias del frontend (PIN del POS) además de las habituales
+from corsheaders.defaults import default_headers
+CORS_ALLOW_HEADERS = (*default_headers, 'x-pos-desbloqueo')
 #REST_FRAMEWORK = {
  #   ...: ...,
   #  "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",#
@@ -227,11 +254,24 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Tienda en linea',
-    'DESCRIPTION': 'Hrms',
+    'TITLE': 'API Tienda Ortiz',
+    'DESCRIPTION': 'API para gestión de tienda',
     'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
-    # OTHER SETTINGS
+    
+    # Define el orden exacto de los grupos
+    'TAGS': [
+        {'name': 'usuarios'},
+        {'name': 'productos'},
+        {'name': 'contactos'},    
+        {'name': 'cotizaciones'},
+        {'name': 'carrito'},
+        {'name': 'ordenes'},
+        {'name': 'direcciones'},
+        {'name': 'codigos'},
+        {'name': 'pagos'},
+        {'name': 'facturas'},
+
+    ],
 }
 
 REST_FRAMEWORK = {

@@ -1,4 +1,5 @@
 import re
+from django.contrib.auth.hashers import check_password, make_password
 from django.db import models
 from stripeAPI.customer import create_customer
 from django.contrib.auth.models import AbstractUser
@@ -11,6 +12,25 @@ from orders.commo import OrderStatus
 class User (AbstractUser):
     
     customer_id=models.CharField(max_length=100, blank=True, null=True)
+    # PIN de 4 a 6 dígitos para entrar al punto de venta (se guarda con hash)
+    pin_hash = models.CharField(max_length=128, blank=True, editable=False)
+    # Número de carnet (DUI); sirve para iniciar sesión. Vacío = None para no chocar en unique
+    carnet = models.CharField(max_length=20, unique=True, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        # El carnet se guarda solo con dígitos, igual que se busca al iniciar sesión
+        from .permisos import normalizar_carnet
+        self.carnet = normalizar_carnet(self.carnet) or None
+        super().save(*args, **kwargs)
+
+    def tiene_pin(self):
+        return bool(self.pin_hash)
+
+    def set_pin(self, pin):
+        self.pin_hash = make_password(pin)
+
+    def check_pin(self, pin):
+        return bool(self.pin_hash) and check_password(pin, self.pin_hash)
     
     def get_full_name(self):
         return '{}-{}'.format(self.first_name, self.last_name)

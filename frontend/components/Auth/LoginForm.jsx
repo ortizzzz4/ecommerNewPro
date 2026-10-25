@@ -1,7 +1,17 @@
 import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { loginUser } from "../../api/ApisCrud";
+import { inputClass, labelClass, primaryButtonClass } from "../../utils/ui";
+
+const guardarSesion = (access, refresh, username) => {
+  localStorage.setItem("access_token", access);
+  localStorage.setItem("refresh_token", refresh);
+  localStorage.setItem("username", username);
+};
 
 const Login = () => {
+  const location = useLocation();
+  const from = location.state?.from || "/";
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -13,83 +23,53 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await loginUser({ username, password });
-
-      if (response.status === 200) {
-        const { access, refresh } = response.data;
-
-        localStorage.setItem("access_token", access);
-        localStorage.setItem("refresh_token", refresh);
-
-        // ✅ Mostrar alerta de éxito
-        alert("✅ Inicio de sesión exitoso 😊");
-
-        window.location.href = "/"
-      }
+      const { data } = await loginUser({ username: username.trim(), password });
+      guardarSesion(data.access, data.refresh, username.trim());
+      // Recarga completa para que la barra de navegación lea la sesión nueva
+      window.location.href = from;
     } catch (err) {
-      setError(err.response?.data?.detail || "Credenciales incorrectas");
-    } finally {
+      setError(err.response?.data?.detail || "Usuario o contraseña incorrectos");
       setLoading(false);
     }
   };
 
   return (
-    <div
-      className="flex h-screen justify-center items-center bg-cover bg-center relative"
-      style={{
-        backgroundImage:
-          "url('https://images.unsplash.com/photo-1521790797524-b2497295b8a0?auto=format&fit=crop&w=1950&q=80')",
-      }}
-    >
-      {/* Capa de degradado */}
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 via-blue-700/60 to-indigo-900/70 backdrop-blur-sm"></div>
+    <div className="mx-auto w-full max-w-md">
+      <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Iniciar sesión</h1>
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Accede para completar tus compras o usar el sistema.</p>
 
-      {/* Tarjeta de login */}
-      <div className="relative z-10 bg-white/90 backdrop-blur-md shadow-2xl rounded-2xl p-8 w-96 border border-gray-200">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-800 drop-shadow-md">
-          Iniciar Sesión
-        </h2>
-
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <label className="block text-gray-700 font-medium">Usuario</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none text-black"
-            />
+        {(from === "/cart" || from === "/checkout") && (
+          <div className="mt-4 rounded-lg bg-indigo-50 p-3 text-sm text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+            Inicia sesión para completar tu compra.
           </div>
-          <div>
-            <label className="block text-gray-700 font-medium">Contraseña</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none text-black"
-            />
-          </div>
+        )}
 
-          {error && (
-            <p className="text-red-600 text-sm text-center">{error}</p>
-          )}
+        <form onSubmit={handleLogin} className="mt-6 space-y-4">
+            <>
+              <div>
+                <label htmlFor="username" className={labelClass}>Usuario</label>
+                <input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} required autoComplete="username" className={inputClass} />
+              </div>
+              <div>
+                <label htmlFor="password" className={labelClass}>Contraseña</label>
+                <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="current-password" className={inputClass} />
+              </div>
+            </>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white font-medium py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 shadow-md"
-          >
+          {error && <p className="text-center text-sm text-red-600 dark:text-red-400">{error}</p>}
+
+          <button type="submit" disabled={loading} className={primaryButtonClass}>
             {loading ? "Ingresando..." : "Entrar"}
           </button>
         </form>
 
-        <p className="text-center text-gray-600 text-sm mt-4">
+        <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
           ¿No tienes cuenta?{" "}
-          <a href="/register" className="text-blue-600 hover:underline">
-            Regístrate
-          </a>
+          <Link to="/register" className="font-semibold text-indigo-600 hover:underline dark:text-indigo-400">Regístrate</Link>
+        </p>
+        <p className="mt-2 text-center text-sm">
+          <Link to="/" className="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">← Volver a la tienda</Link>
         </p>
       </div>
     </div>

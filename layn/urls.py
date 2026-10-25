@@ -46,6 +46,21 @@ urlpatterns = [
     path('codigos/', include('promo_code.urls')),
     path('pagos/', include('biling_profiles.urls')),
     path('users/',include('users.urls')),
+    path('api/cotizaciones/', include('quotations.urls')),
+    path('api/facturas/', include('invoices.urls')),
+    path('api/contactos/', include('contacts.urls')),
+    path('api/pos/', include('pos.urls')),
+    path('api/inventario/', include('categories.urls')),
+    path('api/inventario/', include('inventario.urls')),
+    path('api/empresa/', include('empresa.urls')),
+    path('api/fe/', include('invoices.fe_urls')),
+    path('api/usuarios/', include('users.gestion_urls')),
+    path('api/tienda/', include('tienda.urls')),
+    path('api/resenas/', include('resenas.urls')),
+    path('api/tenants/', include('tenants.urls')),
+    path('api/crm/', include('crm.urls')),
+    path('api/contabilidad/', include('accountant.urls')),
+
     
     
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

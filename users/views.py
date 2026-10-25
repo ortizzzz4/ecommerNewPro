@@ -23,8 +23,10 @@ class RegisterView(GenericAPIView):
 
 
 class UsersAPi(viewsets.ModelViewSet):
+      # Antes cualquier usuario autenticado podía cambiar o borrar cuentas; ahora solo administradores
       serializer_class = UserSerializer
       queryset = User.objects.all()
+      permission_classes = [IsAdminUser]
       
       
 class CurrentUserView(APIView):

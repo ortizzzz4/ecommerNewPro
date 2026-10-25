@@ -7,7 +7,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from rest_framework.generics import ListAPIView
 from rest_framework import viewsets
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, DjangoModelPermissionsOrAnonReadOnly
 
 from .serializers import ProductSerializers
 # Create your views here.
@@ -47,10 +47,22 @@ class ProductSearchListView(ListView):
              context['query'] = self.query()
              return context
        
+CANALES = {'pos': 'visible_pos', 'ventas': 'visible_ventas', 'compras': 'visible_compras', 'tienda': 'visible_tienda'}
+
+
 class ProductApis(viewsets.ModelViewSet):
       serializer_class = ProductSerializers
       queryset = Product.objects.all()
-      permission_classes = [AllowAny]   # ← ESTA LÍNEA LO HACE PÚBLICO
+      # Cualquiera puede ver el catálogo; crear, editar o borrar exige permisos del modelo
+      permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+
+      def get_queryset(self):
+            # ?canal=pos|ventas|compras|tienda devuelve solo los productos visibles en ese canal
+            queryset = Product.objects.all().order_by('title')
+            canal = self.request.query_params.get('canal')
+            if canal in CANALES:
+                  queryset = queryset.filter(**{CANALES[canal]: True})
+            return queryset
 
      # def guardarDatos(self):
       #    url =self.serializer_class

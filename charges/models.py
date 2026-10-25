@@ -9,7 +9,9 @@ class ChargeManager(models.Manager):
     def create_charge(self, order): #generar el cargo
         
         charge = create_charge_stripe(order)
-        
+        if charge is None:  # no hay perfil de pago o cliente de Stripe
+            return None
+
         return self.create(user=order.user,
                                   order=order,
                                   charge_id=charge.id,

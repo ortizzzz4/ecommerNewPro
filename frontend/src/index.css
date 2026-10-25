@@ -1,32 +1,29 @@
 @import "tailwindcss";
 
-/* Estilos base */
-html, body {
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  transition: all 0.3s ease;
+/* Tailwind 4 usa prefers-color-scheme por defecto; aquí el modo oscuro
+   lo controla la clase .dark en <html> (ver context/ThemeContext.jsx) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
 }
 
-/* Modo claro */
-html.light {
-  background: #f3f4f6;
-  color: #1f2937;
-}
+/* Al imprimir, solo se imprime el recibo (ver components/pos/Recibo.jsx) */
+@media print {
+  body * {
+    visibility: hidden;
+  }
 
-html.light body {
-  background: transparent;
-  color: inherit;
-}
+  #recibo-impresion,
+  #recibo-impresion * {
+    visibility: visible;
+  }
 
-/* Modo oscuro */
-html.dark {
-  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
-  background-attachment: fixed;
-  color: white;
-}
-
-html.dark body {
-  background: transparent;
-  color: inherit;
+  #recibo-impresion {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80mm;
+    max-width: none;
+  }
 }

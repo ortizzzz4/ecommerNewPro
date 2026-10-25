@@ -7,6 +7,7 @@ class Category(models.Model):
     title = models.CharField(max_length=50)
     description= models.TextField()
     products =models.ManyToManyField(Product, blank=True)
+    es_demo = models.BooleanField(default=False, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     

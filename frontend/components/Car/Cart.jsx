@@ -1,166 +1,135 @@
-// /home/ortiz/tienda/ecommerNewPro/frontend/components/Car/Cart.jsx
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { ShoppingCartIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useCart } from '../../context/CartContext';
-import { toast, Toaster } from 'sonner';
+import { formatPrice } from '../../utils/format';
+import { primaryButtonClass } from '../../utils/ui';
 
 export function Cart() {
   const navigate = useNavigate();
-  const { cartItems, removeFromCart, updateQuantity, clearCart, getCartTotal, completeCheckout } = useCart();
-  const [isProcessing, setIsProcessing] = useState(false);
+  const { cartItems, totals, loading, removeFromCart, updateQuantity, clearCart } = useCart();
+  const isLoggedIn = Boolean(localStorage.getItem('access_token'));
 
-  const handleCheckout = async () => {
-    setIsProcessing(true);
-    
-    // Aquí puedes agregar validaciones adicionales
-    const token = localStorage.getItem('access_token');
-    if (!token) {
-      toast.error('⚠️ Debes iniciar sesión para completar la compra');
-      navigate('/login');
-      setIsProcessing(false);
+  const handleCheckout = () => {
+    if (!isLoggedIn) {
+      navigate('/login', { state: { from: '/checkout' } });
       return;
     }
-
-    // Procesar la compra
-    const success = await completeCheckout();
-    
-    if (success) {
-      // Redirigir a una página de confirmación o productos
-      setTimeout(() => {
-        navigate('/productos');
-      }, 2000);
-    }
-    
-    setIsProcessing(false);
+    navigate('/checkout');
   };
 
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-6 flex flex-col items-center justify-center">
-        <Toaster position="top-center" richColors />
-        <div className="text-center">
-          <h2 className="text-4xl font-bold mb-4">🛒 Tu carrito está vacío</h2>
-          <p className="text-gray-400 mb-6">Agrega productos para continuar</p>
-          <button
-            onClick={() => navigate('/productos')}
-            className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-2xl font-semibold shadow-lg transition"
-          >
-            Ver productos
-          </button>
-        </div>
+      <div className="flex flex-col items-center py-20 text-center">
+        <ShoppingCartIcon className="h-16 w-16 text-slate-300 dark:text-slate-700" />
+        <h1 className="mt-4 text-2xl font-bold text-slate-900 dark:text-white">Tu carrito está vacío</h1>
+        <p className="mt-2 text-slate-500 dark:text-slate-400">Agrega productos para continuar con tu compra.</p>
+        <Link to="/productos" className="mt-6 rounded-lg bg-indigo-600 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-indigo-700">
+          Ver catálogo
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-6">
-      <Toaster position="top-center" richColors />
-      
-      <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-extrabold text-indigo-400">🛒 Mi Carrito</h1>
-          <button
-            onClick={clearCart}
-            className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition"
-          >
-            Vaciar carrito
-          </button>
-        </div>
+    <div>
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Carrito</h1>
+        <button onClick={clearCart} disabled={loading} className="text-sm font-medium text-red-600 hover:underline disabled:opacity-50 dark:text-red-400">
+          Vaciar carrito
+        </button>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Lista de productos */}
-          <div className="lg:col-span-2 space-y-4">
-            {cartItems.map(item => (
-              <div
-                key={item.id}
-                className="bg-gray-800/90 backdrop-blur-md rounded-2xl p-4 border border-gray-700 flex gap-4"
-              >
-                {item.image && (
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-24 h-24 object-cover rounded-lg"
-                  />
-                )}
-                
-                <div className="flex-1">
-                  <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                  <p className="text-green-400 font-bold">${item.price}</p>
-                  
-                  <div className="flex items-center gap-3 mt-3">
+      <div className="grid gap-8 lg:grid-cols-3">
+        <ul className="space-y-4 lg:col-span-2">
+          {cartItems.map(item => (
+            <li
+              key={item.id}
+              className="flex gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+            >
+              {item.image && (
+                <img src={item.image} alt={item.title} className="h-24 w-24 flex-shrink-0 rounded-lg object-cover" />
+              )}
+
+              <div className="flex flex-1 flex-col justify-between gap-3 sm:flex-row sm:items-center">
+                <div>
+                  <h2 className="font-semibold text-slate-900 dark:text-white">{item.title}</h2>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{formatPrice(item.price)} c/u</p>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center rounded-lg border border-slate-300 dark:border-slate-700">
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                      className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded"
+                      disabled={loading}
+                      aria-label="Disminuir cantidad"
+                      className="px-3 py-1 transition hover:bg-slate-100 dark:hover:bg-slate-800"
                     >
-                      -
+                      −
                     </button>
-                    <span className="px-4">{item.quantity}</span>
+                    <span className="w-8 text-center font-medium">{item.quantity}</span>
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded"
+                      disabled={loading}
+                      aria-label="Aumentar cantidad"
+                      className="px-3 py-1 transition hover:bg-slate-100 dark:hover:bg-slate-800"
                     >
                       +
                     </button>
                   </div>
-                </div>
 
-                <div className="flex flex-col justify-between items-end">
+                  <span className="w-24 text-right font-bold text-slate-900 dark:text-white">
+                    {formatPrice(Number(item.price) * item.quantity)}
+                  </span>
+
                   <button
                     onClick={() => removeFromCart(item.id)}
-                    className="text-red-400 hover:text-red-300 transition"
+                    disabled={loading}
+                    aria-label={`Quitar ${item.title} del carrito`}
+                    className="text-slate-400 transition hover:text-red-600 dark:hover:text-red-400"
                   >
-                    🗑️
+                    <TrashIcon className="h-5 w-5" />
                   </button>
-                  <p className="text-xl font-bold">
-                    ${(item.price * item.quantity).toFixed(2)}
-                  </p>
                 </div>
               </div>
-            ))}
-          </div>
+            </li>
+          ))}
+        </ul>
 
-          {/* Resumen del pedido */}
-          <div className="lg:col-span-1">
-            <div className="bg-gray-800/90 backdrop-blur-md rounded-2xl p-6 border border-gray-700 sticky top-6">
-              <h2 className="text-2xl font-bold mb-4">Resumen del pedido</h2>
-              
-              <div className="space-y-3 mb-6">
-                <div className="flex justify-between">
-                  <span>Subtotal:</span>
-                  <span>${getCartTotal().toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Envío:</span>
-                  <span>Gratis</span>
-                </div>
-                <hr className="border-gray-700" />
-                <div className="flex justify-between text-xl font-bold">
-                  <span>Total:</span>
-                  <span className="text-green-400">${getCartTotal().toFixed(2)}</span>
-                </div>
-              </div>
+        <aside className="h-fit rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:sticky lg:top-24 dark:border-slate-800 dark:bg-slate-900">
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white">Resumen del pedido</h2>
 
-              <button
-                onClick={handleCheckout}
-                disabled={isProcessing}
-                className={`w-full px-6 py-3 rounded-2xl font-semibold shadow-lg transition ${
-                  isProcessing 
-                    ? 'bg-gray-600 cursor-not-allowed' 
-                    : 'bg-green-600 hover:bg-green-700'
-                }`}
-              >
-                {isProcessing ? '⏳ Procesando...' : '💳 Proceder al pago'}
-              </button>
-
-              <button
-                onClick={() => navigate('/productos')}
-                className="w-full mt-3 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-2xl font-semibold shadow-lg transition"
-              >
-                Seguir comprando
-              </button>
+          <dl className="mt-4 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+            <div className="flex justify-between">
+              <dt>Subtotal</dt>
+              <dd>{formatPrice(totals.subtotal)}</dd>
             </div>
+            {totals.total > totals.subtotal && (
+              <div className="flex justify-between">
+                <dt>Cargo de servicio</dt>
+                <dd>{formatPrice(totals.total - totals.subtotal)}</dd>
+              </div>
+            )}
+          </dl>
+
+          <div className="mt-4 flex justify-between border-t border-slate-200 pt-4 text-lg font-bold text-slate-900 dark:border-slate-800 dark:text-white">
+            <span>Total</span>
+            <span>{formatPrice(totals.total)}</span>
           </div>
-        </div>
+
+          <button onClick={handleCheckout} disabled={loading} className={`mt-6 ${primaryButtonClass}`}>
+            Proceder al pago
+          </button>
+
+          {!isLoggedIn && (
+            <p className="mt-3 text-center text-xs text-slate-500 dark:text-slate-400">
+              Necesitas iniciar sesión para pagar.
+            </p>
+          )}
+
+          <Link to="/productos" className="mt-4 block text-center text-sm font-semibold text-indigo-600 hover:underline dark:text-indigo-400">
+            Seguir comprando
+          </Link>
+        </aside>
       </div>
     </div>
   );
