@@ -1,0 +1,29 @@
+services:
+  web:
+    build: .
+    container_name: ecommerce-web
+    restart: unless-stopped
+    env_file: .env
+    depends_on:
+      - db
+    networks:
+      - web
+      - interna
+
+  db:
+    image: postgres:16
+    container_name: ecommerce-db
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - interna
+
+volumes:
+  pgdata:
+
+networks:
+  web:
+    external: true
+  interna:
