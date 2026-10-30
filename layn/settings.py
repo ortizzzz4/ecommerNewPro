@@ -145,19 +145,28 @@ WSGI_APPLICATION = 'layn.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+#DATABASES = {
+ #   'default': {
         #'ENGINE': 'django.db.backends.sqlite3',
         #'NAME':"dbortiz" #BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dbortiz',
-        'USER': 'luis',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
-        'PORT': '5432',
+  #      'ENGINE': 'django.db.backends.postgresql_psycopg2',
+   #     'NAME': 'dbortiz',
+    #    'USER': 'luis',
+     #   'PASSWORD': '1234',
+    #    'HOST': 'localhost',
+    #    'PORT': '5432',
+    #}
+#}
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ["DB_NAME"],
+        "USER": os.environ["DB_USER"],
+        "PASSWORD": os.environ["DB_PASSWORD"],
+        "HOST": os.environ.get("DB_HOST", "localhost"),
+        "PORT": os.environ.get("DB_PORT", "5432"),
     }
 }
- 
 
 #import dj_database_url
 #from decouple import config
