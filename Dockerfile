@@ -11,5 +11,8 @@ RUN pip install --no-cache-dir "pip<25" "setuptools<70" wheel \
 
 COPY . .
 
+RUN DJANGO_SECRET_KEY=build DB_NAME=build DB_USER=build DB_PASSWORD=build \
+    python manage.py collectstatic --noinput
+
 EXPOSE 8000
 CMD ["gunicorn", "layn.wsgi:application", "--bind", "0.0.0.0:8000"]

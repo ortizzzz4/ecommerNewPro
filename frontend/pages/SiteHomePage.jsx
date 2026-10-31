@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline';
+import { ChevronLeftIcon, ChevronRightIcon, EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline';
 import { getResenas } from '../api/ApisCrud';
 import { imagenes, pasos, servicios, sitio } from '../config/sitio';
 import { toList } from '../utils/data';
@@ -43,6 +43,107 @@ function Estrellas({ cantidad }) {
     <span aria-label={`${cantidad} de 5 estrellas`} className="text-amber-400">
       {'★'.repeat(cantidad)}<span className="text-slate-300 dark:text-slate-600">{'★'.repeat(5 - cantidad)}</span>
     </span>
+  );
+}
+
+const INTERVALO_RESENAS_MS = 6000;
+
+// Carrusel de reseñas: gira solo, se pausa con el mouse o el teclado encima,
+// y no se mueve si el visitante pidió reducir el movimiento en su sistema
+function CarruselResenas({ resenas }) {
+  const [indice, setIndice] = useState(0);
+  const [pausado, setPausado] = useState(false);
+  const total = resenas.length;
+  const actual = indice < total ? indice : 0;
+  const reducirMovimiento = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+  useEffect(() => {
+    if (total < 2 || pausado || reducirMovimiento) return undefined;
+    const id = setInterval(() => setIndice(i => (i + 1) % total), INTERVALO_RESENAS_MS);
+    return () => clearInterval(id);
+  }, [total, pausado, reducirMovimiento]);
+
+  const anterior = () => setIndice(i => (i - 1 + total) % total);
+  const siguiente = () => setIndice(i => (i + 1) % total);
+
+  return (
+    <div
+      role="region"
+      aria-roledescription="carrusel"
+      aria-label="Reseñas de clientes"
+      onMouseEnter={() => setPausado(true)}
+      onMouseLeave={() => setPausado(false)}
+      onFocus={() => setPausado(true)}
+      onBlur={() => setPausado(false)}
+    >
+      <div className="overflow-hidden">
+        <div
+          className="flex transition-transform duration-700 ease-in-out"
+          style={{ transform: `translateX(-${actual * 100}%)` }}
+        >
+          {resenas.map((resena, n) => (
+            <div key={resena.id} className="w-full shrink-0 px-2" aria-hidden={n !== actual}>
+              <blockquote className={`${cardClass} mx-auto flex max-w-2xl flex-col gap-4 p-8`}>
+                <Estrellas cantidad={resena.calificacion} />
+                <p className="flex-1 text-lg text-slate-700 dark:text-slate-300">“{resena.texto}”</p>
+                <footer className="flex items-center gap-3">
+                  {resena.foto ? (
+                    <img src={resena.foto} alt="" className="h-12 w-12 rounded-full object-cover" />
+                  ) : (
+                    <span className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100 font-semibold text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+                      {resena.nombre.charAt(0)}
+                    </span>
+                  )}
+                  <div className="text-sm">
+                    <p className="font-semibold text-slate-900 dark:text-white">{resena.nombre}</p>
+                    {(resena.cargo || resena.empresa) && (
+                      <p className="text-slate-500 dark:text-slate-400">{[resena.cargo, resena.empresa].filter(Boolean).join(' · ')}</p>
+                    )}
+                  </div>
+                </footer>
+              </blockquote>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {total > 1 && (
+        <div className="mt-8 flex items-center justify-center gap-4">
+          <button
+            type="button"
+            onClick={anterior}
+            aria-label="Reseña anterior"
+            className="rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
+          >
+            <ChevronLeftIcon className="h-5 w-5" />
+          </button>
+
+          <div className="flex items-center gap-2">
+            {resenas.map((resena, n) => (
+              <button
+                key={resena.id}
+                type="button"
+                onClick={() => setIndice(n)}
+                aria-label={`Ir a la reseña ${n + 1}`}
+                aria-current={n === actual}
+                className={`h-2.5 rounded-full transition-all duration-500 ${
+                  n === actual ? 'w-8 bg-indigo-600' : 'w-2.5 bg-slate-300 hover:bg-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600'
+                }`}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={siguiente}
+            aria-label="Reseña siguiente"
+            className="rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
+          >
+            <ChevronRightIcon className="h-5 w-5" />
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -148,29 +249,7 @@ export function SiteHomePage() {
             Todavía no hay reseñas publicadas.
           </p>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {resenas.map(resena => (
-              <blockquote key={resena.id} className={`${cardClass} flex flex-col gap-4 p-6`}>
-                <Estrellas cantidad={resena.calificacion} />
-                <p className="flex-1 text-slate-700 dark:text-slate-300">“{resena.texto}”</p>
-                <footer className="flex items-center gap-3">
-                  {resena.foto ? (
-                    <img src={resena.foto} alt="" className="h-10 w-10 rounded-full object-cover" />
-                  ) : (
-                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100 font-semibold text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
-                      {resena.nombre.charAt(0)}
-                    </span>
-                  )}
-                  <div className="text-sm">
-                    <p className="font-semibold text-slate-900 dark:text-white">{resena.nombre}</p>
-                    {(resena.cargo || resena.empresa) && (
-                      <p className="text-slate-500 dark:text-slate-400">{[resena.cargo, resena.empresa].filter(Boolean).join(' · ')}</p>
-                    )}
-                  </div>
-                </footer>
-              </blockquote>
-            ))}
-          </div>
+          <CarruselResenas resenas={resenas} />
         )}
       </section>
 
