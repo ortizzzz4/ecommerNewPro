@@ -76,13 +76,10 @@ jobs:
           script: |
             set -e
             cd ~/svr/ecommerNewPro
-            git config --global --add safe.directory ~/svr/ecommerNewPro
-            git fetch origin main
-            git reset --hard origin/main
+            git pull origin main
             docker compose up -d --build web frontend
             docker compose exec -T web python manage.py migrate --noinput
             docker compose restart web
             cd ~/svr/proxy
             docker compose up -d
             docker compose restart caddy
-            docker image prune -f
