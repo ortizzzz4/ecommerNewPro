@@ -10,7 +10,7 @@ export const updateProduct = (id, product) => api.put(`productos/v1/product/${id
 
 
 // Usuarios
-export const registerUser = (userData) => api.post('users/users/register/', userData);
+export const registerUser = (userData) => api.post('usuarios/registro', userData);
 export const loginUser = (credentials) => api.post('users/users/login/', credentials);
 export const refreshToken = (token) => api.post('users/users/refresh/', { refresh: token });
 
