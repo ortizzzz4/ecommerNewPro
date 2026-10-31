@@ -1,8 +1,9 @@
 import { Link, NavLink } from 'react-router-dom';
-import { MoonIcon, ShoppingCartIcon, SunIcon } from '@heroicons/react/24/outline';
+import { ArrowRightOnRectangleIcon, MoonIcon, ShoppingCartIcon, SunIcon } from '@heroicons/react/24/outline';
 import { useTheme } from '../context/ThemeContext';
 import { useCart } from '../context/CartContext';
 import { sitio } from '../config/sitio';
+import { logoutUser } from '../api/ApisCrud';
 
 const navLinkClass = ({ isActive }) =>
   `text-sm font-medium transition-colors ${
@@ -23,6 +24,22 @@ export function Navigation() {
   const { isDark, toggleTheme } = useTheme();
   const { getCartCount } = useCart();
   const cartCount = getCartCount();
+
+  // Revoca el refresh token en el servidor y borra la sesión del navegador,
+  // aunque la petición falle (por ejemplo, si el access token ya expiró)
+  const cerrarSesion = async () => {
+    const refresh = localStorage.getItem('refresh_token');
+    try {
+      if (refresh) await logoutUser(refresh);
+    } catch {
+      // Se ignora: la sesión local se borra de todas formas
+    } finally {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      localStorage.removeItem('username');
+      window.location.href = '/';
+    }
+  };
 
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-900/90">
@@ -63,6 +80,12 @@ export function Navigation() {
                 Prueba gratis
               </Link>
             </>
+          )}
+
+          {isLoggedIn && (
+            <button onClick={cerrarSesion} className={iconButtonClass} aria-label="Cerrar sesión" title="Cerrar sesión">
+              <ArrowRightOnRectangleIcon className="h-6 w-6" />
+            </button>
           )}
         </div>
       </div>

@@ -6,7 +6,7 @@ from .bases import en_empresa
 from .models import EmpresaRegistrada
 from .modulos import modulo_de_ruta
 
-RUTAS_SIEMPRE_ABIERTAS = ('/api/tenants/', '/users/users/current/', '/users/users/refresh/')
+RUTAS_SIEMPRE_ABIERTAS = ('/api/tenants/', '/api/users/users/current/', '/api/users/users/refresh/')
 MENSAJE_BLOQUEADA = 'Tu base de datos se encuentra bloqueada. Contacta a soporte para reactivarla.'
 MENSAJE_VENCIDA = 'Tu base de datos ha expirado. Activa una suscripción para volver a usarla.'
 

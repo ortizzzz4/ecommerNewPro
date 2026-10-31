@@ -23,6 +23,7 @@ urlpatterns = [
     path('users/login-pin/', LoginPinView.as_view(), name='login_pin'),
     path('users/login-carnet/', LoginCarnetView.as_view(), name='login_carnet'),
     path('users/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('users/logout/', views.LogoutView.as_view(), name='logout'),
     
     path('users/current/', views.CurrentUserView.as_view(), name='current_user'),
 

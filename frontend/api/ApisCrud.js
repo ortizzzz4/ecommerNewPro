@@ -1,20 +1,21 @@
 import api from './axios';
 
-export const getProducts = (params) => api.get('productos/v1/product/', { params });
-export const getProduct    = (id, params) => api.get(`productos/v1/product/${id}/`, { params });
-export const createProduct = (product) => api.post('productos/v1/product/', product);
-export const deleteProduct = (id) => api.delete(`productos/v1/product/${id}/`);
-export const updateProduct = (id, product) => api.put(`productos/v1/product/${id}/`, product);
+export const getProducts = (params) => api.get('api/productos/v1/product/', { params });
+export const getProduct    = (id, params) => api.get(`api/productos/v1/product/${id}/`, { params });
+export const createProduct = (product) => api.post('api/productos/v1/product/', product);
+export const deleteProduct = (id) => api.delete(`api/productos/v1/product/${id}/`);
+export const updateProduct = (id, product) => api.put(`api/productos/v1/product/${id}/`, product);
 
 
 
 
 // Usuarios
-export const registerUser = (userData) => api.post('usuarios/registro', userData);
-export const loginUser = (credentials) => api.post('users/users/login/', credentials);
-export const refreshToken = (token) => api.post('users/users/refresh/', { refresh: token });
+export const registerUser = (userData) => api.post('api/users/users/register/', userData);
+export const loginUser = (credentials) => api.post('api/users/users/login/', credentials);
+export const refreshToken = (token) => api.post('api/users/users/refresh/', { refresh: token });
+export const logoutUser = (refresh) => api.post('api/users/users/logout/', { refresh });
 
-export const getCurrentUser = () => api.get('users/users/current/');
+export const getCurrentUser = () => api.get('api/users/users/current/');
 
 
 
@@ -53,41 +54,9 @@ export const marcarFacturaPagada= (id)         => api.patch(`api/facturas/factur
 export const anularFactura      = (id)         => api.patch(`api/facturas/facturas/${id}/anular/`);
 
 // ─────────────────────────────────────────────
-// CARRITO
-// ─────────────────────────────────────────────
-export const getCarrito         = ()           => api.get('carrito/');
-export const addToCarrito       = (data)       => api.post('carrito/', data);
-export const updateCarritoItem  = (id, data)   => api.put(`carrito/${id}/`, data);
-export const removeCarritoItem  = (id)         => api.delete(`carrito/${id}/`);
-
-// ─────────────────────────────────────────────
-// ÓRDENES / PEDIDOS
-// ─────────────────────────────────────────────
-export const getOrdenes         = ()           => api.get('orden/');
-export const getOrden           = (id)         => api.get(`orden/${id}/`);
-export const createOrden        = (data)       => api.post('orden/', data);
-export const updateOrden        = (id, data)   => api.put(`orden/${id}/`, data);
-
-// ─────────────────────────────────────────────
-// DIRECCIONES
-// ─────────────────────────────────────────────
-export const getDirecciones     = ()           => api.get('direcciones/');
-export const getDireccion       = (id)         => api.get(`direcciones/${id}/`);
-export const createDireccion    = (data)       => api.post('direcciones/', data);
-export const updateDireccion    = (id, data)   => api.put(`direcciones/${id}/`, data);
-export const deleteDireccion    = (id)         => api.delete(`direcciones/${id}/`);
-
-// ─────────────────────────────────────────────
 // CÓDIGOS PROMOCIONALES
 // ─────────────────────────────────────────────
-export const getCodigos         = ()           => api.get('codigos/');
-export const validarCodigo      = (codigo)     => api.post('codigos/validar/', { codigo });
-
-// ─────────────────────────────────────────────
-// PAGOS
-// ─────────────────────────────────────────────
-export const getPagos           = ()           => api.get('pagos/');
-export const createPago         = (data)       => api.post('pagos/', data);
+export const validarCodigo      = (codigo)     => api.post('api/codigos/validar/', { codigo });
 
 // ─────────────────────────────────────────────
 // TIENDA (carrito, pagos y pedidos del usuario)
@@ -145,7 +114,7 @@ export const saveCategoria        = (id, data)   => id
   : api.post('api/inventario/categorias/', data);
 export const deleteCategoria      = (id)         => api.delete(`api/inventario/categorias/${id}/`);
 export const setProductCategorias = (productId, categoriaIds) =>
-  api.patch(`productos/v1/product/${productId}/`, { categorias: categoriaIds });
+  api.patch(`api/productos/v1/product/${productId}/`, { categorias: categoriaIds });
 
 // ─────────────────────────────────────────────
 // EXISTENCIAS, COMPONENTES Y MOVIMIENTOS
@@ -176,7 +145,7 @@ export const getDte             = (facturaId) => api.get(`api/fe/facturas/${fact
 export const transmitirFactura  = (facturaId) => api.post(`api/fe/facturas/${facturaId}/transmitir/`);
 
 // Ingreso rápido con carnet y PIN (cajeros)
-export const loginPin = (carnet, pin) => api.post('users/users/login-pin/', { carnet, pin });
+export const loginPin = (carnet, pin) => api.post('api/users/users/login-pin/', { carnet, pin });
 
 // ─────────────────────────────────────────────
 // CAJA (apertura, cierre e historial)
@@ -253,4 +222,4 @@ export const getActividades       = (oportunidadId) => api.get('api/crm/activida
 export const crearActividad       = (data) => api.post('api/crm/actividades/', data);
 
 // Entrada al POS escaneando el carnet
-export const loginCarnet = (carnet) => api.post('users/users/login-carnet/', { carnet });
+export const loginCarnet = (carnet) => api.post('api/users/users/login-carnet/', { carnet });

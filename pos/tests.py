@@ -160,8 +160,8 @@ class PermisosModeloTests(TestCase):
         self.producto = Product.objects.create(title='Café', description='d', price=Decimal('1.00'), image='products/c.png', stock=Decimal('100'))
 
     def test_productos_son_publicos_para_leer_pero_no_para_escribir(self):
-        self.assertEqual(self.api.get('/productos/v1/product/').status_code, 200)
-        r = self.api.delete(f'/productos/v1/product/{self.producto.id}/')
+        self.assertEqual(self.api.get('/api/productos/v1/product/').status_code, 200)
+        r = self.api.delete(f'/api/productos/v1/product/{self.producto.id}/')
         self.assertIn(r.status_code, (401, 403))
         self.assertTrue(Product.objects.filter(pk=self.producto.id).exists())
 
@@ -320,7 +320,7 @@ class CategoriasInventarioTests(TestCase):
         self.api.force_authenticate(self.admin)
 
     def test_asignar_categoria_a_producto_desde_inventario(self):
-        r = self.api.patch(f'/productos/v1/product/{self.producto.id}/', {'categorias': [self.categoria.id]}, format='json')
+        r = self.api.patch(f'/api/productos/v1/product/{self.producto.id}/', {'categorias': [self.categoria.id]}, format='json')
         self.assertEqual(r.status_code, 200, r.content)
         self.assertEqual(r.json()['categorias'], [self.categoria.id])
 

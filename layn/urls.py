@@ -22,30 +22,18 @@ from django.conf import settings
 from products.views import ProductApis
 from rest_framework import routers
 
-from products.views import ProductListView
-from orders.views import OrderViewSele
 from promo_code.views import ListPromo
 from categories.views import ListaApiCate
-
-from . import views
 
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 
 urlpatterns = [
   
-    path('', ProductListView.as_view(), name='index' ),
-    path('usuarios/login', views.login_view, name='login' ),
-    path('usuarios/logout', views.logout_view, name='logout' ),
-    path('usuarios/registro', views.register, name='register' ),
     path('admin/', admin.site.urls),
-    path('productos/', include('products.urls')),
-    path('carrito/', include('carts.urls' )),
-    path('orden/', include('orders.urls')),
-    path('direcciones/', include('shipping_addresses.urls')),
-    path('codigos/', include('promo_code.urls')),
-    path('pagos/', include('biling_profiles.urls')),
-    path('users/',include('users.urls')),
+    path('api/productos/', include('products.urls')),
+    path('api/codigos/', include('promo_code.urls')),
+    path('api/users/',include('users.urls')),
     path('api/cotizaciones/', include('quotations.urls')),
     path('api/facturas/', include('invoices.urls')),
     path('api/contactos/', include('contacts.urls')),

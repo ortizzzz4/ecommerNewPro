@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: ""/"",
+  baseURL: "/",
 });
 
 // 🔒 Interceptor para incluir el token en cada petición
@@ -28,7 +28,8 @@ api.interceptors.response.use(
       // Token expirado, limpiar storage
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
-      
+      localStorage.removeItem("username");
+
       // Redirige automáticamente (esto ya recarga la página)
       window.location.href = "/login";
       

@@ -1,24 +1,5 @@
-from django.http import HttpResponseForbidden
-
 import time
 from datetime import datetime
-
-class InternalOnlyMiddleware:
-    INTERNAL_ALLOWED_IPS = ["127.0.0.1", "localhost", "::1"]
-
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
-        path = request.path
-
-        # RUTA QUE QUIERES PROTEGER
-        if path.startswith("/productos/v1/product/"):
-            ip = request.META.get("REMOTE_ADDR")
-            if ip not in self.INTERNAL_ALLOWED_IPS:
-                return HttpResponseForbidden("Access restricted to internal network")
-
-        return self.get_response(request)
 
 
 class SimpleLogMiddleware:
@@ -59,9 +40,9 @@ class SimpleLogMiddleware:
     def _obfuscate_path(self, path):
         """Ofusca rutas sensibles"""
         obfuscations = {
-            '/users/users/current/': '/auth/***',
-            '/users/users/login/': '/login',
-            '/productos/v1/product/': '/products',
+            '/api/users/users/current/': '/auth/***',
+            '/api/users/users/login/': '/login',
+            '/api/productos/v1/product/': '/products',
             '/media/products/': '/media/***',
         }
         

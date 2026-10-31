@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_spectacular',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'quotations',
     'invoices',
     'contacts',
@@ -338,4 +339,5 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
-MIDDLEWARE.insert(2, 'layn.middleware.internal_only.InternalOnlyMiddleware')
+# El login vive en el frontend (React), no en Django
+LOGIN_URL = '/login'

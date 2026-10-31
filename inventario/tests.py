@@ -221,8 +221,8 @@ class CanalesProductoTests(TestCase):
         producto('Solo compras', visible_pos=False, visible_ventas=False, visible_tienda=False)
 
     def test_filtro_por_canal(self):
-        self.assertEqual(len(self.api.get('/productos/v1/product/').json()), 2)
-        self.assertEqual([p['title'] for p in self.api.get('/productos/v1/product/?canal=tienda').json()], ['Para POS'])
+        self.assertEqual(len(self.api.get('/api/productos/v1/product/').json()), 2)
+        self.assertEqual([p['title'] for p in self.api.get('/api/productos/v1/product/?canal=tienda').json()], ['Para POS'])
 
 
 class CompraRecepcionTests(TestCase):
