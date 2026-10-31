@@ -11,8 +11,8 @@ import {
 export const sitio = {
   nombre: 'Ortiz',
   eslogan: 'Desarrollo de sistemas a la medida e integraciones entre aplicaciones.',
-  correo: 'contacto@tudominio.com',
-  telefono: '+503 0000-0000',
+  correo: 'luis.ortiz.7948@gmail.com',
+  telefono: '+503 7948-3213',
   ubicacion: 'El Salvador',
 };
 
