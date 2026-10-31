@@ -3,7 +3,6 @@ import { ArrowRightOnRectangleIcon, MoonIcon, ShoppingCartIcon, SunIcon } from '
 import { useTheme } from '../context/ThemeContext';
 import { useCart } from '../context/CartContext';
 import { sitio } from '../config/sitio';
-import { logoutUser } from '../api/ApisCrud';
 
 const navLinkClass = ({ isActive }) =>
   `text-sm font-medium transition-colors ${
@@ -25,20 +24,13 @@ export function Navigation() {
   const { getCartCount } = useCart();
   const cartCount = getCartCount();
 
-  // Revoca el refresh token en el servidor y borra la sesión del navegador,
-  // aunque la petición falle (por ejemplo, si el access token ya expiró)
-  const cerrarSesion = async () => {
-    const refresh = localStorage.getItem('refresh_token');
-    try {
-      if (refresh) await logoutUser(refresh);
-    } catch {
-      // Se ignora: la sesión local se borra de todas formas
-    } finally {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('refresh_token');
-      localStorage.removeItem('username');
-      window.location.href = '/';
-    }
+  // Borra todos los datos de sesión del navegador. Los tokens JWT no se pueden
+  // revocar en el servidor con esta configuración, así que dejan de usarse aquí.
+  const cerrarSesion = () => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('username');
+    window.location.href = '/';
   };
 
   return (
